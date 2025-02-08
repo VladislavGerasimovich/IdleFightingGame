@@ -5,8 +5,10 @@ namespace Items
     [CreateAssetMenu(fileName = "New Item", menuName = "Consumable", order = 51)]
     public class Consumables : Item
     {
-        [SerializeField] private int _cost;
+        [SerializeField] private int _amountToSell;
+        [SerializeField] private string _info;
 
-        public int Cost => _cost;
+        public int AmountToSell => _amountToSell;
+        public string Info => _info;
     }
 }

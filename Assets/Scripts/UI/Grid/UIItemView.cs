@@ -11,6 +11,8 @@ namespace UI.Grid
 
         private int _minValue;
 
+        public int Amount { get; private set; }
+
         private void Awake()
         {
             _minValue = 1;
@@ -20,8 +22,9 @@ namespace UI.Grid
         {
             _icon.sprite = sprite;
             _text.text = amount.ToString();
+            Amount = amount;
 
-            if(amount <= _minValue)
+            if (amount <= _minValue)
             {
                 _text.enabled = false;
                 return;
