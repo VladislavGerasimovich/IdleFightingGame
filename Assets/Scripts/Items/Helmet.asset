@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56b78f1e5a1c7f141bc5b071b5ae9d10, type: 3}
   m_Name: Helmet
   m_EditorClassIdentifier: 
+  MaxAmount: 1
+  CurrentAmount: 1
   _label: "\u0448\u043B\u0435\u043C"
   _icon: {fileID: 21300000, guid: 588b77df519dd5e478d508f3c9789236, type: 3}
-  _maxAmount: 1
-  _currentAmount: 1
   _type: HELMET
   _armorCount: 10
   _weightCount: 1

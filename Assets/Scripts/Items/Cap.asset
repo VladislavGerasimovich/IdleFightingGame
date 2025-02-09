@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56b78f1e5a1c7f141bc5b071b5ae9d10, type: 3}
   m_Name: Cap
   m_EditorClassIdentifier: 
+  MaxAmount: 1
+  CurrentAmount: 1
   _label: "\u041A\u0435\u043F\u043A\u0430"
   _icon: {fileID: 21300000, guid: 2695fd60f756a324f9694c629e65e276, type: 3}
-  _maxAmount: 1
-  _currentAmount: 1
   _type: CAP
   _armorCount: 3
   _weightCount: 0

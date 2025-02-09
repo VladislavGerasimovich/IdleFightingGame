@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56b78f1e5a1c7f141bc5b071b5ae9d10, type: 3}
   m_Name: Jacket
   m_EditorClassIdentifier: 
+  MaxAmount: 1
+  CurrentAmount: 1
   _label: "\u041A\u0443\u0440\u0442\u043A\u0430"
   _icon: {fileID: 21300000, guid: 91bfdd2d219d3694f8fa8807078640cc, type: 3}
-  _maxAmount: 1
-  _currentAmount: 1
   _type: JACKET
   _armorCount: 3
   _weightCount: 1

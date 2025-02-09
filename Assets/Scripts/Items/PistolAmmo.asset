@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b33f0ffcefffae74d9590fdfd41eacc9, type: 3}
   m_Name: PistolAmmo
   m_EditorClassIdentifier: 
+  MaxAmount: 50
+  CurrentAmount: 50
   _label: "\u041F\u0430\u0442\u0440\u043E\u043D\u044B 9x18\u043C\u043C"
   _icon: {fileID: 21300000, guid: aac102832f264f94fb5d3d7db31a126c, type: 3}
-  _maxAmount: 50
-  _currentAmount: 50
   _type: PISTOL_AMMO
   _amountToSell: 5
   _info: "\u041A\u0443\u043F\u0438\u0442\u044C \u043F\u0430\u0442\u0440\u043E\u043D\u044B,

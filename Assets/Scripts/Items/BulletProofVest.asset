@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56b78f1e5a1c7f141bc5b071b5ae9d10, type: 3}
   m_Name: BulletProofVest
   m_EditorClassIdentifier: 
+  MaxAmount: 1
+  CurrentAmount: 1
   _label: "\u0411\u0440\u043E\u043D\u0435\u0436\u0438\u043B\u0435\u0442"
   _icon: {fileID: 21300000, guid: f5dd25f55e6ff0e4c90702053edef1b9, type: 3}
-  _maxAmount: 1
-  _currentAmount: 1
   _type: BULLETPROOF_VEST
   _armorCount: 10
   _weightCount: 10
