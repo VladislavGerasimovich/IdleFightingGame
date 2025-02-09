@@ -1,3 +1,4 @@
+using Health;
 using Items;
 using System;
 using TMPro;
@@ -25,13 +26,13 @@ namespace UI
         [SerializeField] private DressedItem _dressedHat;
         [SerializeField] private WeaponAmmo _pistolWeapon;
         [SerializeField] private WeaponAmmo _rifleWeapon;
+        [SerializeField] private PlayerHealth _playerHealth;
 
         private UIItemButton _itemButton;
         private Sprite _itemIcon;
         private string _type;
         private int _armor;
         private int _amountToSell;
-        private int _currentAmount;
 
         public event Action<UIItemButton> OnDeleteButtonClicked;
         public event Action<string> OnUseButtonClicked;
@@ -99,27 +100,11 @@ namespace UI
         {
             if (_type == Constants.Jacket || _type == Constants.BulletProofVest)
             {
-                string type = _dressedJacket.Type;
-                _dressedJacket.SetValues(_itemIcon, _label.text, _armor, _type);
-                OnDeleteButtonClick();
-
-                if(type != "")
-                {
-                    _itemsUsed.AddItemByType(type, Constants.AmountAddedClothes);
-                    OnUseButtonClicked?.Invoke(type);
-                }
+                SetClothes(_dressedJacket);
             }
             else if (_type == Constants.Cap || _type == Constants.Helmet)
             {
-                string type = _dressedHat.Type;
-                _dressedHat.SetValues(_itemIcon, _label.text, _armor, _type);
-                OnDeleteButtonClick();
-
-                if (type != "")
-                {
-                    _itemsUsed.AddItemByType(type, Constants.AmountAddedClothes);
-                    OnUseButtonClicked?.Invoke(type);
-                }
+                SetClothes(_dressedHat);
             }
             else if (_type == Constants.PistolAmmo || _type == Constants.RifleAmmo)
             {
@@ -139,24 +124,47 @@ namespace UI
 
                 if (isReload == true)
                 {
-                    Consumables consumables = _itemsUsed.GetConsumables(_type);
-                    UIItemView itemView = _itemButton.GetComponent<UIItemView>();
-                    consumables.SubtractAmount(_amountToSell);
-
-                    if(itemView.Amount - _amountToSell <= 0)
-                    {
-                        OnDeleteButtonClick();
-                        Close();
-
-                        return;
-                    }
-
-                    int amount = itemView.Amount - _amountToSell;
-                    itemView.Set(_itemIcon, amount);
+                    SetConsumables();
                 }
 
                 Close();
             }
+            else if(_type == Constants.FirstAid)
+            {
+                _playerHealth.Add(Constants.AmountRestoredHealth);
+                SetConsumables();
+            }
+        }
+
+        private void SetClothes(DressedItem dressedItem)
+        {
+            string type = dressedItem.Type;
+            dressedItem.SetValues(_itemIcon, _label.text, _armor, _type);
+            OnDeleteButtonClick();
+
+            if (type != null)
+            {
+                _itemsUsed.AddItemByType(type, Constants.AmountAddedClothes);
+                OnUseButtonClicked?.Invoke(type);
+            }
+        }
+
+        private void SetConsumables()
+        {
+            Consumables consumables = _itemsUsed.GetConsumables(_type);
+            UIItemView itemView = _itemButton.GetComponent<UIItemView>();
+            consumables.SubtractAmount(_amountToSell);
+
+            if (itemView.Amount - _amountToSell <= 0)
+            {
+                OnDeleteButtonClick();
+                Close();
+
+                return;
+            }
+
+            itemView.Set(_itemIcon, consumables.CurrentCount);
+            Close();
         }
 
         private void OnDeleteButtonClick()

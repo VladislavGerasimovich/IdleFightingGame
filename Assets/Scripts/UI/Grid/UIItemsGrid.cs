@@ -35,17 +35,7 @@ namespace UI.Grid
                 _slots.Add(slot);
             }
 
-            for (int i = 0; i < _itemsUsed.ConsumablesCount; i++)
-            {
-                Consumables item = _itemsUsed.GetConsumablesByIndex(i);
-                AddItem(item.Icon, item.MaxAmount, item.CurrentAmount, item.Type);
-            }
-
-            for (int i = 0; i < _itemsUsed.ClothesCount; i++)
-            {
-                Clothes item = _itemsUsed.GetClothesByIndex(i);
-                AddItem(item.Icon, item.MaxAmount, item.CurrentAmount, item.Type);
-            }
+            Set();
         }
 
         private void OnEnable()
@@ -104,18 +94,48 @@ namespace UI.Grid
             }
         }
 
+        public void Set()
+        {
+            for (int i = 0; i < _itemsUsed.ConsumablesCount; i++)
+            {
+                Consumables item = _itemsUsed.GetConsumablesByIndex(i);
+                AddItem(item.Icon, item.MaxCount, item.CurrentCount, item.Type);
+            }
+
+            for (int i = 0; i < _itemsUsed.ClothesCount; i++)
+            {
+                Clothes item = _itemsUsed.GetClothesByIndex(i);
+                AddItem(item.Icon, item.MaxCount, item.CurrentCount, item.Type);
+            }
+        }
+
+        public void DeleteAllItems()
+        {
+            foreach (UIItemView itemView in _itemsView)
+            {
+                Destroy(itemView.gameObject);
+            }
+
+            foreach (SlotStatus slotStatus in _slots)
+            {
+                slotStatus.Set(false);
+            }
+
+            _itemsView.Clear();
+        }
+
         private void OnUseButtonClicked(string type)
         {
             if (type == Constants.FirstAid || type == Constants.PistolAmmo || type == Constants.RifleAmmo)
             {
                 Consumables consumables = _itemsUsed.GetConsumables(type);
-                AddItem(consumables.Icon, consumables.MaxAmount, consumables.CurrentAmount, consumables.Type);
+                AddItem(consumables.Icon, consumables.MaxCount, consumables.CurrentCount, consumables.Type);
 
                 return;
             }
 
             Clothes clothes = _itemsUsed.GetClothes(type);
-            AddItem(clothes.Icon, clothes.MaxAmount, clothes.CurrentAmount, clothes.Type);
+            AddItem(clothes.Icon, clothes.MaxCount, clothes.CurrentCount, clothes.Type);
         }
 
         private IEnumerator SwitchOffGridLayoutGroup()
@@ -137,7 +157,7 @@ namespace UI.Grid
             slot = _slots.Find(slot => slot.IsBusy == false);
             itemView = Instantiate(_uiItemPrefab, slot.transform);
             _itemsView.Add(itemView);
-            slot.SetStatus(true);
+            slot.Set(true);
         }
 
         private void DeleteItem(UIItemButton itemButton)
@@ -153,7 +173,7 @@ namespace UI.Grid
 
             _itemsView.Remove(itemView);
             SlotStatus slotStatus = itemButton.GetComponentInParent<SlotStatus>();
-            slotStatus.SetStatus(false);
+            slotStatus.Set(false);
             Destroy(itemButton.gameObject);
         }
 

@@ -33,5 +33,11 @@ namespace Weapons
             Count -= count;
             _countText.text = Count.ToString();
         }
+
+        public void ResetCount()
+        {
+            Count = 0;
+            _countText.text = Count.ToString();
+        }
     }
 }

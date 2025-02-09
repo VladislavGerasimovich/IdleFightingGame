@@ -27,6 +27,7 @@ namespace UI.Grid
             if (amount <= _minValue)
             {
                 _text.enabled = false;
+
                 return;
             }
 

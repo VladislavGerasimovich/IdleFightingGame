@@ -13,4 +13,6 @@ public static class Constants
     public const int AmountAddedClothes = 1;
     public const int AmountAddedPistolAmmo = 5;
     public const int AmountAddedRifleAmmo = 10;
+    public const int AmountRestoredHealth = 50;
+    public const int MaxEnemyDamage = 15;
 }

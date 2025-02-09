@@ -10,10 +10,10 @@ namespace UI.Grid
     {
         private Button _button;
 
-        public string Type { get; private set; }
-
         public event Action<string, UIItemButton> Click;
         public event Action<UIItemButton> ButtonDisabled;
+
+        public string Type { get; private set; }
 
         private void Awake()
         {

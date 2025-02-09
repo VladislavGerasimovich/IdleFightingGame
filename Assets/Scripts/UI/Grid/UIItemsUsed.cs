@@ -57,12 +57,25 @@ namespace UI.Grid
             }
         }
 
+        public void Set()
+        {
+            foreach (Consumables consumables in _consumables)
+            {
+                consumables.SetOriginalMeaning();
+            }
+
+            foreach (Clothes clothes in _clothes)
+            {
+                clothes.SetOriginalMeaning();
+            }
+        }
+
         public Item GetRandomType()
         {
             System.Random random = new System.Random();
             int index = random.Next(_allTypes.Count);
             string itemType = _allTypes[index];
-            Debug.Log(itemType + " item type");
+
             if (
                 itemType == Constants.Jacket ||
                 itemType == Constants.BulletProofVest ||

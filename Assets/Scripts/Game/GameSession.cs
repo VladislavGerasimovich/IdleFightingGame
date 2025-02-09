@@ -1,48 +1,70 @@
+using Enemy;
+using Health;
 using Items;
+using UI;
 using UI.Grid;
 using UnityEngine;
 using UnityEngine.UI;
 using Weapons;
 
-public class GameSession : MonoBehaviour
+namespace Game
 {
-    [SerializeField] private Button _attackButton;
-    [SerializeField] private WeaponButtons _weaponButtons;
-    [SerializeField] private EnemyHealth _enemyHealth;
-    [SerializeField] private UIItemsGrid _itemsGrid;
-    [SerializeField] private UIItemsUsed _itemsUsed;
-
-    private void OnEnable()
+    public class GameSession : MonoBehaviour
     {
-        _attackButton.onClick.AddListener(OnAttackButtonClick);
-    }
+        [SerializeField] private Button _attackButton;
+        [SerializeField] private WeaponButtons _weaponButtons;
+        [SerializeField] private CharacterHealth _enemyHealth;
+        [SerializeField] private UIItemsGrid _itemsGrid;
+        [SerializeField] private UIItemsUsed _itemsUsed;
+        [SerializeField] private EnemyAttack _enemyAttack;
+        [SerializeField] private CharacterHealth _playerHealth;
+        [SerializeField] private GameOverWindow _gameOverWindow;
+        [SerializeField] private WeaponAmmo _pistolAmmo;
+        [SerializeField] private WeaponAmmo _rifleAmmo;
 
-    private void OnDisable()
-    {
-        _attackButton.onClick.RemoveListener(OnAttackButtonClick);
-    }
-
-    private void OnAttackButtonClick()
-    {
-        WeaponStatus weaponStatus = _weaponButtons.GetReadyWeapon();
-
-        if(weaponStatus != null)
+        private void OnEnable()
         {
-            WeaponAmmo weaponAmmo = weaponStatus.WeaponAmmo;
-            WeaponInfo weaponInfo = weaponStatus.WeaponInfo;
+            _attackButton.onClick.AddListener(OnAttackButtonClick);
+        }
 
-            if(weaponAmmo.Count >= weaponInfo.CountOfShots)
+        private void OnDisable()
+        {
+            _attackButton.onClick.RemoveListener(OnAttackButtonClick);
+        }
+
+        private void OnAttackButtonClick()
+        {
+            WeaponStatus weaponStatus = _weaponButtons.GetReadyWeapon();
+
+            if (weaponStatus != null)
             {
-                int damage = weaponInfo.Damage * weaponInfo.CountOfShots;
-                weaponAmmo.Subtract(weaponInfo.CountOfShots);
-                _enemyHealth.Set(damage);
+                WeaponAmmo weaponAmmo = weaponStatus.WeaponAmmo;
+                WeaponInfo weaponInfo = weaponStatus.WeaponInfo;
 
-                if(_enemyHealth.Count <= 0)
+                if (weaponAmmo.Count >= weaponInfo.CountOfShots)
                 {
-                    _enemyHealth.Restore();
-                    Item item = _itemsUsed.GetRandomType();
-                    _itemsGrid.AddItem(item.Icon, item.MaxAmount, item.CurrentAmount, item.Type);
+                    int damage = weaponInfo.Damage * weaponInfo.CountOfShots;
+                    weaponAmmo.Subtract(weaponInfo.CountOfShots);
+                    _enemyHealth.Set(damage);
+
+                    if (_enemyHealth.Amount <= 0)
+                    {
+                        _enemyHealth.Restore();
+                        Item item = _itemsUsed.GetRandomType();
+                        _itemsGrid.AddItem(item.Icon, item.MaxCount, item.CurrentCount, item.Type);
+                    }
                 }
+            }
+
+            _enemyAttack.Run();
+
+            if (_playerHealth.Amount <= 0)
+            {
+                _pistolAmmo.ResetCount();
+                _rifleAmmo.ResetCount();
+                _playerHealth.Restore();
+                _enemyHealth.Restore();
+                _gameOverWindow.Open();
             }
         }
     }

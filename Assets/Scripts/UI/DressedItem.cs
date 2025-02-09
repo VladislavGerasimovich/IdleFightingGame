@@ -10,7 +10,8 @@ namespace UI
         [SerializeField] private TMP_Text _label;
         [SerializeField] private TMP_Text _armor;
 
-        public string Type;
+        public string Type { get; private set; }
+        public int ArmorCount { get; private set; }
 
         public void SetValues(Sprite icon, string label, int armor, string newType)
         {
@@ -18,6 +19,7 @@ namespace UI
             _icon.sprite = icon;
             _label.text = label;
             _armor.text = armor.ToString();
+            ArmorCount = armor;
         }
     }
 }

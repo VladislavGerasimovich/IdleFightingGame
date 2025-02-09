@@ -17,6 +17,6 @@ MonoBehaviour:
   _maxAmount: 6
   _currentAmount: 3
   _type: FIRST_AID
-  _amountToSell: 0
+  _amountToSell: 1
   _info: "\u0412\u043E\u0441\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u0442\u044C
     \u0437\u0434\u043E\u0440\u043E\u0432\u044C\u0435"

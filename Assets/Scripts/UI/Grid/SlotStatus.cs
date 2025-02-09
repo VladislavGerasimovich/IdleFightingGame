@@ -6,7 +6,7 @@ namespace UI.Grid
     {
         public bool IsBusy { get; private set; }
 
-        public void SetStatus(bool value)
+        public void Set(bool value)
         {
             IsBusy = value;
         }
