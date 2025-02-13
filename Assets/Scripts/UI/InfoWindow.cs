@@ -28,13 +28,13 @@ namespace UI
         [SerializeField] private WeaponAmmo _rifleWeapon;
         [SerializeField] private PlayerHealth _playerHealth;
 
-        private UIItemButton _itemButton;
+        private UIItemView _itemView;
         private Sprite _itemIcon;
         private string _type;
         private int _armor;
         private int _amountToSell;
 
-        public event Action<UIItemButton> OnDeleteButtonClicked;
+        public event Action<UIItemView> OnDeleteButtonClicked;
         public event Action<string> OnUseButtonClicked;
 
         private void OnEnable()
@@ -50,7 +50,7 @@ namespace UI
         }
 
         public void Set(
-            UIItemButton itemButton,
+            UIItemView itemView,
             string label,
             Sprite icon,
             string type,
@@ -59,7 +59,7 @@ namespace UI
             int weight = 0,
             string info = "")
         {
-            _itemButton = itemButton;
+            _itemView = itemView;
             _type = type;
             transform.gameObject.SetActive(true);
             _label.text = label;
@@ -67,7 +67,6 @@ namespace UI
             _itemIcon = icon;
             _amountToSell = amountToSell;
             _armor = armor;
-            UIItemView itemView = _itemButton.GetComponent<UIItemView>();
 
             if(itemView.Amount < _amountToSell)
             {
@@ -152,10 +151,9 @@ namespace UI
         private void SetConsumables()
         {
             Consumables consumables = _itemsUsed.GetConsumables(_type);
-            UIItemView itemView = _itemButton.GetComponent<UIItemView>();
             consumables.SubtractAmount(_amountToSell);
 
-            if (itemView.Amount - _amountToSell <= 0)
+            if (_itemView.Amount - _amountToSell <= 0)
             {
                 OnDeleteButtonClick();
                 Close();
@@ -163,13 +161,13 @@ namespace UI
                 return;
             }
 
-            itemView.Set(_itemIcon, consumables.CurrentCount);
+            _itemView.Set(_itemIcon, consumables.CurrentCount);
             Close();
         }
 
         private void OnDeleteButtonClick()
         {
-            OnDeleteButtonClicked?.Invoke(_itemButton);
+            OnDeleteButtonClicked?.Invoke(_itemView);
             Close();
         }
 

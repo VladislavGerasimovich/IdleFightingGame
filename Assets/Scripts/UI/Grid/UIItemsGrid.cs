@@ -1,3 +1,4 @@
+using Interfaces;
 using Items;
 using System.Collections;
 using System.Collections.Generic;
@@ -77,7 +78,7 @@ namespace UI.Grid
 
             while (amount > 0)
             {
-                CreateItem(out SlotStatus slot, out UIItemView itemView);
+                CreateItem(out UIItemView itemView);
 
                 if(amount < maxAmount)
                 {
@@ -152,18 +153,17 @@ namespace UI.Grid
             itemButton.ButtonDisabled += OnButtonDisabled;
         }
 
-        private void CreateItem(out SlotStatus slot, out UIItemView itemView)
+        private void CreateItem(out UIItemView itemView)
         {
-            slot = _slots.Find(slot => slot.IsBusy == false);
+            SlotStatus slot = _slots.Find(slot => slot.IsBusy == false);
             itemView = Instantiate(_uiItemPrefab, slot.transform);
             _itemsView.Add(itemView);
             slot.Set(true);
         }
 
-        private void DeleteItem(UIItemButton itemButton)
+        private void DeleteItem(UIItemView itemView)
         {
-            UIItemView itemView = itemButton.GetComponent<UIItemView>();
-            Consumables consumables = _itemsUsed.GetConsumables(itemButton.Type);
+            UIItemButton itemButton = itemView.GetComponent<UIItemButton>();
             Clothes clothes = _itemsUsed.GetClothes(itemButton.Type);
 
             if(clothes != null)
@@ -177,19 +177,19 @@ namespace UI.Grid
             Destroy(itemButton.gameObject);
         }
 
-        private void OnButtonDisabled(UIItemButton itemButton)
+        private void OnButtonDisabled(IItemButton itemButton)
         {
             itemButton.Click -= OnItemButtonClick;
             itemButton.ButtonDisabled -= OnButtonDisabled;
         }
 
-        private void OnItemButtonClick(string type, UIItemButton itemButton)
+        private void OnItemButtonClick(IItemButton itemButton)
         {
-            if (type == Constants.FirstAid || type == Constants.PistolAmmo || type == Constants.RifleAmmo)
+            if (itemButton.Type == Constants.FirstAid || itemButton.Type == Constants.PistolAmmo || itemButton.Type == Constants.RifleAmmo)
             {
-                Consumables consumables = _itemsUsed.GetConsumables(type);
+                Consumables consumables = _itemsUsed.GetConsumables(itemButton.Type);
                 _popUpWindow.Set(
-                    itemButton,
+                    itemButton.ItemView,
                     consumables.Label,
                     consumables.Icon,
                     consumables.Type,
@@ -201,9 +201,9 @@ namespace UI.Grid
                 return;
             }
 
-            Clothes clothes = _itemsUsed.GetClothes(type);
+            Clothes clothes = _itemsUsed.GetClothes(itemButton.Type);
             _popUpWindow.Set(
-                itemButton,
+                itemButton.ItemView,
                 clothes.Label,
                 clothes.Icon,
                 clothes.Type,

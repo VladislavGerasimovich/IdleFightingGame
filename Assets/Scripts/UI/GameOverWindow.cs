@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UI.Grid;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,6 +10,7 @@ namespace UI
         [SerializeField] private UIItemsGrid _itemsGrid;
         [SerializeField] private UIItemsUsed _itemsUsed;
         [SerializeField] private Button _restartButton;
+        [SerializeField] private List<DressedItem> _dressedItems;
 
         private void OnEnable()
         {
@@ -31,6 +33,11 @@ namespace UI
             _itemsGrid.DeleteAllItems();
             _itemsGrid.Set();
             transform.gameObject.SetActive(false);
+
+            foreach (DressedItem dressedItem in _dressedItems)
+            {
+                dressedItem.ResetValues();
+            }
         }
     }
 }

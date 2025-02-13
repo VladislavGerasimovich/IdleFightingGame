@@ -1,4 +1,4 @@
-using Items;
+using Interfaces;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,13 +6,15 @@ using UnityEngine.UI;
 namespace UI.Grid
 {
     [RequireComponent(typeof(Button))]
-    public class UIItemButton : MonoBehaviour
+    [RequireComponent(typeof(UIItemView))]
+    public class UIItemButton : MonoBehaviour, IItemButton
     {
         private Button _button;
 
-        public event Action<string, UIItemButton> Click;
-        public event Action<UIItemButton> ButtonDisabled;
+        public event Action<IItemButton> Click;
+        public event Action<IItemButton> ButtonDisabled;
 
+        public UIItemView ItemView { get; private set; }
         public string Type { get; private set; }
 
         private void Awake()
@@ -33,12 +35,13 @@ namespace UI.Grid
 
         public void Init(string type)
         {
+            ItemView = GetComponent<UIItemView>();
             Type = type;
         }
 
         private void OnButtonClick()
         {
-            Click?.Invoke(Type, this);
+            Click?.Invoke(this);
         }
     }
 }

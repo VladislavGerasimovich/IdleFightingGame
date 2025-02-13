@@ -9,7 +9,7 @@ using Weapons;
 
 namespace Game
 {
-    public class GameSession : MonoBehaviour
+    public class AttackHandler : MonoBehaviour
     {
         [SerializeField] private Button _attackButton;
         [SerializeField] private WeaponButtons _weaponButtons;
@@ -45,7 +45,7 @@ namespace Game
                 {
                     int damage = weaponInfo.Damage * weaponInfo.CountOfShots;
                     weaponAmmo.Subtract(weaponInfo.CountOfShots);
-                    _enemyHealth.Set(damage);
+                    _enemyHealth.TakeDamage(damage);
 
                     if (_enemyHealth.Amount <= 0)
                     {

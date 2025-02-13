@@ -23,7 +23,7 @@ namespace Enemy
         public void Run()
         {
             SetDamage();
-            _playerHealth.Set(_currentDamage);
+            _playerHealth.TakeDamage(_currentDamage);
             _currentDamage = _maxDamage;
         }
 

@@ -21,7 +21,7 @@ namespace Health
             HealthView.Set(Count, MaxCount);
         }
 
-        public void Set(int value)
+        public void TakeDamage(int value)
         {
             Count -= value;
 

@@ -11,8 +11,8 @@ namespace Weapons
         [SerializeField] private Color _selectedColor;
         [SerializeField] private Image _image;
 
-        public WeaponInfo WeaponInfo;
-        public WeaponAmmo WeaponAmmo;
+        public WeaponInfo WeaponInfo { get; private set; }
+        public WeaponAmmo WeaponAmmo { get; private set; }
 
         public bool IsReady { get; private set; }
 
