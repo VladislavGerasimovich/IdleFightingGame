@@ -136,7 +136,11 @@ namespace UI.Grid
             }
 
             Clothes clothes = _itemsUsed.GetClothes(type);
-            AddItem(clothes.Icon, clothes.MaxCount, clothes.CurrentCount, clothes.Type);
+
+            if(clothes != null)
+            {
+                AddItem(clothes.Icon, clothes.MaxCount, clothes.CurrentCount, clothes.Type);
+            }
         }
 
         private IEnumerator SwitchOffGridLayoutGroup()
